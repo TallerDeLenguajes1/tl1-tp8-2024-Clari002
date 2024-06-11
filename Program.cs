@@ -32,21 +32,27 @@ if (!int.TryParse(Console.ReadLine(), out int respuesta))
 
 
 
+
+
 Console.WriteLine("-------------------MENU----------------");
 Console.WriteLine("(1)Clasificar Tareas a Realizadas");
 Console.WriteLine("(2)Mostrar Tareas Pendientes");
 Console.WriteLine("(3)Mostrar las Tareas Realizadas");
 Console.WriteLine("(4)Buscar una Tareas Pendientes por descripcion");
 Console.WriteLine("Inserte respuesta: ");
+
+
 if (!int.TryParse(Console.ReadLine(), out int opcion))
 {
     Console.WriteLine("El valor ingresado no es numero");
 }else{
+    do{
     switch (opcion)
     {
         case 1:
-        Console.WriteLine("---------Clasificar Tareas a Realizadas----------");
-        foreach (var tarea in TareasPendientes)
+        Console.WriteLine("\n---------Clasificar Tareas a Realizadas----------");
+        List<Tarea> copiaTareasPendientes = new List<Tarea>(TareasPendientes);
+        foreach (var tarea in copiaTareasPendientes)
         {
             Console.WriteLine(tarea.ShowTarea());
             Console.WriteLine("Tarea Realizada SI(1) NO(0)");
@@ -56,24 +62,22 @@ if (!int.TryParse(Console.ReadLine(), out int opcion))
             }else{
                 if (op==1)
                 {
-                    idaMover= tarea.IdTarea;
-                    moverTarea(TareasPendientes, TareasRealizadas, idaMover);
+                    int idaMover = tarea.IdTarea;
+                    Tarea.MoverTarea(TareasPendientes, TareasRealizadas, idaMover);
                     tarea.Estado= estadoDeTarea.Realizado;
-                    TareasRealizadas.Add(tarea);
-                    TareasPendientes.Remove(tarea);
+                   // TareasRealizadas.Add(tarea);
+                   // TareasPendientes.Remove(tarea);
                     Console.WriteLine("La tarea con ID "+ tarea.IdTarea + " se ha realizado");
 
                 }
-            }    
+            }  
+            Console.WriteLine("\n");  
         }
 
-        
-
-
-
+    
         break;
         case 2:
-        Console.WriteLine("---------Mostrar Tareas Pendientes----------");
+        Console.WriteLine("\n\n---------Mostrar Tareas Pendientes----------");
         Console.WriteLine("ID  Descripcion      D    Estado");
         foreach (var tarea in TareasPendientes)
         {
@@ -82,7 +86,7 @@ if (!int.TryParse(Console.ReadLine(), out int opcion))
 
         break;
         case 3:
-        Console.WriteLine("---------Mostrar Tareas Realizadas----------");
+        Console.WriteLine("\n\n---------Mostrar Tareas Realizadas----------");
         Console.WriteLine("ID  Descripcion      D    Estado");
         foreach (var tarea in TareasRealizadas)
         {
@@ -90,14 +94,36 @@ if (!int.TryParse(Console.ReadLine(), out int opcion))
         }
         break;
         case 4:
-        Console.WriteLine("-------Buscar una Tarea Pendiente por descripcion-------");
+        Console.WriteLine("\n\n-------Buscar una Tarea Pendiente por descripcion-------");
         Console.WriteLine("Ingrese la descripcion a buscar: ");
         string descripcionBusc = Console.ReadLine();
+        foreach (var tarea in TareasPendientes)
+        {
+            if (tarea.Descripcion.ToLower().Contains(descripcionBusc.ToLower()))
+            {
+                Console.WriteLine("TAREA ENCONTRADA");
+                Console.WriteLine(tarea.ShowTarea());  
+            }else{
+                Console.WriteLine("TAREA NO ENCONTRADA!!!!!!!");
+            }
+        }
         break;
         
         default:
         break;
     }
-}
 
+    Console.WriteLine("\n\n\n-------------------MENU----------------");
+Console.WriteLine("(1)Clasificar Tareas a Realizadas");
+Console.WriteLine("(2)Mostrar Tareas Pendientes");
+Console.WriteLine("(3)Mostrar las Tareas Realizadas");
+Console.WriteLine("(4)Buscar una Tareas Pendientes por descripcion");
+Console.WriteLine("(5)SALIRRRRRRRR: ");
+Console.WriteLine("Inserte respuesta: ");
+if (!int.TryParse(Console.ReadLine(), out opcion))
+{
+    Console.WriteLine("El valor ingresado no es numero");
+}
+}while(opcion!=5);
+}
 

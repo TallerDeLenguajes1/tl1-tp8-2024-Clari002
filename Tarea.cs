@@ -24,8 +24,12 @@ public class Tarea
     {
         return IdTarea + " | " + Descripcion + " | " + Duracion + " | " + Estado;
     }
-
-   
+    public static void MoverTarea(List<Tarea> TareasPendientes, List<Tarea> TareasRealizadas, int id)
+        {
+            Tarea tarea = TareasPendientes.Find(t => t.IdTarea == id);
+            TareasPendientes.Remove(tarea);
+            TareasRealizadas.Add(tarea);
+        }
 }
 
 public enum estadoDeTarea
